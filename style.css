@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.Nav {
+  background-color: navy;
+  height: 50px;
+  width: 100%;
+}
+
+.mapInfo {
+  background-color: bisque;
+  height: 400px;
+  width: 100%;
+}
+
+.dataInfo {
+  background-color: coral;
+  height: 700px;
+  width: 100%;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
