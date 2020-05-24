@@ -1,17 +1,12 @@
 //var that contains country data
 
 const countryData = "https://corona.lmao.ninja/v2/countries?sort=country";
-
-//contains the positions for each marker
-let latlongs = [];
-//contains title for each country
-let titleM = [];
-//contains total deaths, cases, recovered
-let countrySpecificInfo = [];
-
+const countryStyling = "mapStyle.js"
 //country data loaded once the window is
 window.onload = function () {
   getCountries();
+  // getStyling();
+  console.log(mapSty)
 };
 
 //function that grabs data
@@ -21,73 +16,96 @@ function getCountries() {
       return response.json(); //if promise is fulfilled, then this block will run
     })
     .then(function (countries) {
-      console.log(countries);
-      markerData(countries);
-      addMarkerstoMap(latlongs, titleM, countrySpecificInfo);
+      //this function grabs all needed data
+      // markerData(countries);
+
+      //this function displayss all needed data
+      addMarkerstoMap(countries);
+      //function below adds data to map
+      showDataInTable(countries);
     });
   console.log("code executed"); // this will be ran first so if one thing doesn't happen, another happens
 }
 
-//grabs the lat and longs of each country
-function markerData(countriesData) {
-  for (let eachCountry of countriesData) {
-    latlongs.push([
-      eachCountry["countryInfo"]["lat"],
-      eachCountry["countryInfo"]["long"],
-    ]);
-    titleM.push(eachCountry["country"]);
-
-    countrySpecificInfo.push([
-      eachCountry["cases"],
-      eachCountry["deaths"],
-      eachCountry["recovered"],
-      eachCountry["countryInfo"]["flag"]
-    ]);
-  }
+function getStyling() {
+ 
 }
 
 //intializies the map
 var map;
 var marker;
 function initMap() {
+  let  opt = {minZoom: 3, maxZoom:7}
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -20, lng: 30 },
-    zoom: 3,
+    zoom: 4,
+    styles: mapSty
   });
+  map.setOptions(opt)
 }
 
 //adds markers to the map
-function addMarkerstoMap(positionM, titleM, countrydata) {
-  for (let i = 0; i < latlongs.length; i++) {
-    let myLatLng = { lat: positionM[i][0], lng: positionM[i][1] };
+function addMarkerstoMap(countries) {
+  for (let i = 0; i < countries.length; i++) {
+    let myLatLng = {
+      center: {
+        lat: countries[i]["countryInfo"]["lat"],
+        lng: countries[i]["countryInfo"]["long"],
+      },
+    };
     let infowindowM = `<div class= 'countrydata'>
     <div class = "TitleImg">
-      <h1>${titleM[i]}</h1>
-      <img src = '${countrydata[i][3]}' class = 'countryImg' alt = 'country image'/>
+      <h1>${countries[i]["country"]}</h1>
+      <img src = '${countries[i]["countryInfo"]["flag"]}' class = 'countryImg' alt = 'country image'/>
     </div>
-      <p>cases: ${countrydata[i][0]}</p>
-      <p>deaths: ${countrydata[i][1]}</p>
-      <p>recovered: ${countrydata[i][2]}</p>
+      <p>cases: ${countries[i]["cases"]}</p>
+      <p>deaths: ${countries[i]["deaths"]}</p>
+      <p>recovered: ${countries[i]["recovered"]}</p>
     </div>`;
 
-    marker = new google.maps.Marker({
-      position: myLatLng,
+    marker = new google.maps.Circle({
+      strokeColor: "#FF0000",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: "#FF0000",
+      fillOpacity: 0.35,
       map: map,
-      title: titleM[i],
+      center: myLatLng["center"],
+      radius: countries[i]["cases"],
     });
-
     var infowindow = new google.maps.InfoWindow();
 
     google.maps.event.addListener(
       marker,
-      "click",
+      "mouseover",
       (function (marker) {
         return function () {
           infowindow.setContent(infowindowM);
-          infowindow.open(map, marker);
+          infowindow.setPosition(marker.getCenter());
+          infowindow.open(map);
         };
       })(marker)
     );
-    // infoStructure.push([infowindow])
+
+    google.maps.event.addListener(marker, "mouseout", function () {
+      infowindow.close();
+    });
   }
 }
+
+//this function puts data into tables
+
+const showDataInTable = (data) => {
+  var html = "";
+  data.forEach((country) => {
+    html += `
+        <tr>
+            <td>${country.country}</td>
+            <td>${country.cases}</td>
+            <td>${country.recovered}</td>
+            <td>${country.deaths}</td>
+        </tr>
+        `;
+  });
+  document.getElementById("table-data").innerHTML = html;
+};

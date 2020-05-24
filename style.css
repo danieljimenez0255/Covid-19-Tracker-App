@@ -19,9 +19,9 @@ body {
 }
 
 .dataInfo {
-  background-color: lightblue;
   height: 700px;
-  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 #map {
@@ -31,13 +31,29 @@ body {
 
 /* country styling */
 .TitleImg {
-  display:flex;
+  display: flex;
   flex-flow: row wrap;
-  border-bottom:1px solid black;
+  border-bottom: 1px solid black;
 }
 .TitleImg img {
-  margin-left:10px;
-  margin-top:21px;
+  margin-left: 10px;
+  margin-top: 21px;
   width: 40px;
   height: 20px;
+}
+
+/* country data  section */
+.country-data {
+  width: 50%;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow-y:scroll;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.country-data::-webkit-scrollbar{
+  display:none;
 }
