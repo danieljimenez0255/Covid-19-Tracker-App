@@ -1,15 +1,16 @@
 //var that contains country data
 
 const countryData = "https://corona.lmao.ninja/v2/countries?sort=country";
-const countryStyling = "mapStyle.js"
+const historicalData =
+  "https://corona.lmao.ninja/v2/historical/all?lastdays=120";
+const countryStyling = "mapStyle.js";
 //country data loaded once the window is
 window.onload = function () {
   getCountries();
-  // getStyling();
-  console.log(mapSty)
+  gethistoricalData();
 };
 
-//function that grabs data
+//function that grabs country data
 function getCountries() {
   fetch(countryData)
     .then(function (response) {
@@ -27,21 +28,41 @@ function getCountries() {
   console.log("code executed"); // this will be ran first so if one thing doesn't happen, another happens
 }
 
-function getStyling() {
- 
-}
+//function grabs data of totals over last 120 days
+const gethistoricalData = () => {
+  fetch(historicalData)
+    .then(function (responseTwo) {
+      return responseTwo.json(); //if promise is fulfilled, then this block will run
+    })
+    .then(function (countries) {
+      let chartDataM = buildChartData(countries);
+      covidMap(chartDataM);
+    });
+  console.log("code executed"); // this will be ran first so if one thing doesn't happen, another happens
+};
 
+const buildChartData = (historical) => {
+  let chartData = [];
+  for (let date in historical.cases) {
+    let dataPoint = {
+      x: date,
+      y: historical.cases[date],
+    };
+    chartData.push(dataPoint);
+  }
+  return chartData;
+};
 //intializies the map
 var map;
 var marker;
 function initMap() {
-  let  opt = {minZoom: 3, maxZoom:7}
+  let opt = { minZoom: 3, maxZoom: 7 };
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -20, lng: 30 },
     zoom: 4,
-    styles: mapSty
+    styles: mapSty,
   });
-  map.setOptions(opt)
+  map.setOptions(opt);
 }
 
 //adds markers to the map
@@ -108,4 +129,68 @@ const showDataInTable = (data) => {
         `;
   });
   document.getElementById("table-data").innerHTML = html;
+};
+
+// chart scripts
+
+const covidMap = (chartData) => {
+  var ctx = document.getElementById("myChart").getContext("2d");
+  var timeFormat = 'MM/DD/YY';
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: "line",
+
+    // The data for our dataset
+    data: {
+      datasets: [
+        {
+          label: "Covid-19 Total Cases",
+          backgroundColor: "#f4ea8e",
+          borderColor: "#f4ea8e",
+          data: chartData,
+        },
+      ],
+    },
+
+    // Configuration options go here
+    options: {
+      tooltips:{
+        mode: 'index',
+        intersect:false,
+      },
+      responsive: true,
+      title: {
+        display: true,
+        text: "Covid-19 Cases",
+      },
+      scales: {
+        xAxes: [
+          {
+            type: "time",
+            time: {
+              format: timeFormat,
+              tooltipFormat: "ll",
+            },
+            scaleLabel: {
+              display: true,
+              labelString: "Date",
+            },
+          },
+        ],
+        yAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: "value",
+            },
+            ticks:{
+              callback: function(value, index, values){
+                return numeral(value).format('0,0');
+              }
+            },
+          },
+        ],
+      },
+    },
+  });
 };

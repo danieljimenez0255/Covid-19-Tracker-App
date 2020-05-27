@@ -7,7 +7,7 @@ body {
 }
 
 .Nav {
-  background-color: navy;
+  background-color: #f4ea8e;
   height: 50px;
   width: 100%;
 }
@@ -22,6 +22,19 @@ body {
   height: 700px;
   display: flex;
   justify-content: center;
+  background-color: #1f4068;
+}
+
+.chart-data{
+  height:80px;
+  width: 40%;
+  margin-top: 1.25rem;
+  margin-left: 2rem;
+}
+
+.chart-data h1{
+  text-align:center;
+  color:white;
 }
 
 #map {
@@ -44,7 +57,7 @@ body {
 
 /* country data  section */
 .country-data {
-  width: 50%;
+  width: 40%;
   margin-top: 20px;
   border-radius: 10px;
   overflow-y:scroll;
