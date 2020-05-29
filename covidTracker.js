@@ -1,13 +1,43 @@
 //var that contains country data
 
 const countryData = "https://corona.lmao.ninja/v2/countries?sort=country";
-const historicalData =
-  "https://corona.lmao.ninja/v2/historical/all?lastdays=120";
+
+var lastVal;
+var lastValM = " ";
+
+let historicalData = "https://corona.lmao.ninja/v2/historical/all?lastdays=120";
+lastVal = historicalData;
 const countryStyling = "mapStyle.js";
 //country data loaded once the window is
 window.onload = function () {
   getCountries();
-  gethistoricalData();
+  gethistoricalData(lastVal);
+
+  document
+    .getElementById("quantity")
+    .addEventListener("keydown", function (event) {
+      if (event.key == "Enter") {
+        event.preventDefault();
+        clearData(chart); //clears first chart data
+        clearData(chartTwo); // clears second chart data
+        //prevents entire page from reloading when enter key is pressed
+
+        lastVal = changeLastDays();
+        gethistoricalData(lastVal);
+
+        // console.log(lastVal)
+      }
+    });
+};
+
+//This function will allow for user to change amount data to be displayed for a certain number of days
+const changeLastDays = () => {
+  let str = historicalData.slice(0, 53);
+
+  let userInput = document.getElementById("quantity").value;
+
+  lastValM = str + userInput;
+  return lastValM;
 };
 
 //function that grabs country data
@@ -29,36 +59,28 @@ function getCountries() {
 }
 
 //function grabs data of totals over last 120 days
-const gethistoricalData = () => {
-  fetch(historicalData)
+const gethistoricalData = (last) => {
+  console.log(last);
+  fetch(last)
     .then(function (responseTwo) {
       return responseTwo.json(); //if promise is fulfilled, then this block will run
     })
     .then(function (countries) {
       let chartDataM = buildChartData(countries);
+      let secondChartDataM = buildChartDataStacked(countries);
       covidMap(chartDataM);
+      covidChartTwo(secondChartDataM);
     });
   console.log("code executed"); // this will be ran first so if one thing doesn't happen, another happens
 };
 
-const buildChartData = (historical) => {
-  let chartData = [];
-  for (let date in historical.cases) {
-    let dataPoint = {
-      x: date,
-      y: historical.cases[date],
-    };
-    chartData.push(dataPoint);
-  }
-  return chartData;
-};
 //intializies the map
 var map;
 var marker;
 function initMap() {
   let opt = { minZoom: 3, maxZoom: 7 };
   map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -20, lng: 30 },
+    center: { lat: 37.0902, lng: -95.7129 },
     zoom: 4,
     styles: mapSty,
   });
@@ -129,68 +151,4 @@ const showDataInTable = (data) => {
         `;
   });
   document.getElementById("table-data").innerHTML = html;
-};
-
-// chart scripts
-
-const covidMap = (chartData) => {
-  var ctx = document.getElementById("myChart").getContext("2d");
-  var timeFormat = 'MM/DD/YY';
-  var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: "line",
-
-    // The data for our dataset
-    data: {
-      datasets: [
-        {
-          label: "Covid-19 Total Cases",
-          backgroundColor: "#f4ea8e",
-          borderColor: "#f4ea8e",
-          data: chartData,
-        },
-      ],
-    },
-
-    // Configuration options go here
-    options: {
-      tooltips:{
-        mode: 'index',
-        intersect:false,
-      },
-      responsive: true,
-      title: {
-        display: true,
-        text: "Covid-19 Cases",
-      },
-      scales: {
-        xAxes: [
-          {
-            type: "time",
-            time: {
-              format: timeFormat,
-              tooltipFormat: "ll",
-            },
-            scaleLabel: {
-              display: true,
-              labelString: "Date",
-            },
-          },
-        ],
-        yAxes: [
-          {
-            scaleLabel: {
-              display: true,
-              labelString: "value",
-            },
-            ticks:{
-              callback: function(value, index, values){
-                return numeral(value).format('0,0');
-              }
-            },
-          },
-        ],
-      },
-    },
-  });
 };

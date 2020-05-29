@@ -4,12 +4,23 @@
 
 body {
   margin: 0;
+  overflow-x:hidden;
+}
+
+.covidContainer{
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .Nav {
   background-color: #f4ea8e;
   height: 50px;
   width: 100%;
+}
+
+.covidContainer {
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .mapInfo {
@@ -19,23 +30,35 @@ body {
 }
 
 .dataInfo {
-  height: 700px;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  flex-flow:row wrap;
   background-color: #1f4068;
+  overflow: hidden;
+  width:100%;
+  height: 1500px;
 }
 
 .chart-data{
-  height:80px;
-  width: 40%;
   margin-top: 1.25rem;
   margin-left: 2rem;
+  
 }
 
+.chart-dataTwo{
+  margin-top: 2rem;
+}
 .chart-data h1{
   text-align:center;
   color:white;
 }
+
+.chart-dataTwo h1{
+  text-align: center;
+  color: white;
+}
+
+
 
 #map {
   height: 100%;
@@ -59,6 +82,7 @@ body {
 .country-data {
   width: 40%;
   margin-top: 20px;
+  height: 35rem;
   border-radius: 10px;
   overflow-y:scroll;
   -webkit-border-radius: 10px;
@@ -69,4 +93,9 @@ body {
 
 .country-data::-webkit-scrollbar{
   display:none;
+}
+
+label {
+  color:white;
+ 
 }
