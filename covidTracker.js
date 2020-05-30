@@ -14,9 +14,9 @@ window.onload = function () {
   gethistoricalData(lastVal);
 
   document
-    .getElementById("quantity")
-    .addEventListener("keydown", function (event) {
-      if (event.key == "Enter") {
+    .getElementById("q")
+    .addEventListener("click", function (event) {
+ 
         event.preventDefault();
         clearData(chart); //clears first chart data
         clearData(chartTwo); // clears second chart data
@@ -26,7 +26,7 @@ window.onload = function () {
         gethistoricalData(lastVal);
 
         // console.log(lastVal)
-      }
+      
     });
 };
 
