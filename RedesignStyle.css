@@ -1,0 +1,66 @@
+.main {
+    border:1px solid turquoise;
+    height:100vh;
+}
+
+.search-container {
+    display:flex;
+    align-items: center;
+}
+
+.stats-Container{
+    /* border:1px solid red; */
+}
+
+.map-Container {
+    height: 500px;
+    /* background-color:orange; */
+}
+
+#map {
+    border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    -ms-border-radius: 12px;
+    -o-border-radius: 12px;
+}
+
+.chart-Container {
+    height:400px;
+    width: 73%;
+    margin:0;
+}
+
+.chart-Container .col{
+    background-color: #c9c9c9;
+    border-radius:12px;
+    /*border: 1px solid red;
+    */-webkit-border-radius:12px;
+    -moz-border-radius:12px;
+    -ms-border-radius:12px;
+    -o-border-radius:12px;
+    -webkit-border-radius:12px;
+}
+
+.linear-Chart div {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.row label{
+    text-align: center;
+    color:red;
+}
+
+.comparison-Chart div{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.linear-Chart div .comparison-Chart div{
+     margin:0;
+    /* border: 1px solid red; */
+}
