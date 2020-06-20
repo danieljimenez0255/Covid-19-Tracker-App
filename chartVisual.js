@@ -34,6 +34,7 @@ const covidMap = (chartData) => {
 
     // Configuration options go here
     options: {
+      maintainAspectRatio: false,
       legend: {
         display: false,
         labels: {

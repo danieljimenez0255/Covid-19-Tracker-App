@@ -1,7 +1,4 @@
-//var that contains country data
-
-const countryData = "https://corona.lmao.ninja/v2/countries?sort=country";
-
+const countryData = "http://localhost:3001/countries";
 var lastVal;
 var lastValM = " ";
 
@@ -53,7 +50,7 @@ function getCountries() {
       //this function displayss all needed data
       addMarkerstoMap(countries);
       //function below adds data to map
-      showDataInTable(countries);
+      // showDataInTable(countries);
     });
   console.log("code executed"); // this will be ran first so if one thing doesn't happen, another happens
 }
@@ -138,7 +135,7 @@ function addMarkerstoMap(countries) {
 
 //this function puts data into tables
 
-const showDataInTable = (data) => {
+/* const showDataInTable = (data) => {
   var html = "";
   data.forEach((country) => {
     html += `
@@ -152,3 +149,4 @@ const showDataInTable = (data) => {
   });
   document.getElementById("table-data").innerHTML = html;
 };
+ */

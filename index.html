@@ -5,22 +5,125 @@
     <title>Covid-19 Tracker App</title>
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style.css" />
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="RedesignStyle.css" />
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"
+      defer
+    ></script>
     <!-- Moment js must come before chart js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="covidTracker.js"></script>
     <script src="mapStyle.js"></script>
     <script src="chartVisual.js"></script>
+    <script
+      src="https://kit.fontawesome.com/95d4fe7f4a.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <div class="covidContainer">
+    <div class="container-fluid main">
+      <div class="row">
+        <div class="col-8">
+          <div class="row header-container">
+            <div class="col-6 title-container">
+              <h1>Covid-19</h1>
+              <h4>CoronaVirus</h4>
+            </div>
+            <div class="col-6 search-container">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <i class="fas fa-search"></i>
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inlineFormInputGroup"
+                  placeholder="Search Location"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row stats-container w-75">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Total Cases</h5>
+              <p class="card-text">1,222,443</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Active Cases</h5>
+              <p class="card-text">1,222,443</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Recovered</h5>
+              <p class="card-text">1,222,443</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Deaths</h5>
+              <p class="card-text">1,222,443</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row map-container w-75 mt-3">
+        <div class="col">
+          <div id="map"></div>
+        </div>
+      </div>
+
+      <div class="row chart-Container mt-3">
+        <div class="col linear-Chart mr-3">
+          <div class="row">
+            
+          <canvas id="myChart" width="600"></canvas>
+          </div>
+        </div>
+        <div class="col comparison-Chart">
+          <div class="row">
+          <canvas id="myChartTwo" width="600"></canvas>
+        
+            <label for="quantity">Change data seen over certain period of time in terms of days (between 1 and 127):</label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+             min = "1"
+             max = "127"
+            />
+<button id="q" class = "btn btn-warning">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--   <div class="covidContainer">
       <div class="Nav"></div>
       <div class="mapInfo">
         <div id="map"></div>
@@ -60,15 +163,15 @@
         </div>
         </form>
       </div>
-    </div>
+    </div> -->
     <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBArS-s-S30xw9PiLorx3ZnXCnaO0JGlKo&callback=initMap"
       async
       defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBArS-s-S30xw9PiLorx3ZnXCnaO0JGlKo&callback=initMap"
     ></script>
     <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
       crossorigin="anonymous"
     ></script>
     <script
@@ -77,8 +180,8 @@
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
       crossorigin="anonymous"
     ></script>
   </body>
