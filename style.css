@@ -5,8 +5,12 @@
 body {
   margin: 0;
   overflow-x:hidden;
+  background-color: #3E95CD;
 }
 
+body::-webkit-scrollbar {
+  display:none;
+}
 .covidContainer{
   display: flex;
   flex-flow: row wrap;

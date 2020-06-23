@@ -1,66 +1,145 @@
 .main {
-    border:1px solid turquoise;
-    height:100vh;
+  border: 1px solid turquoise;
+  padding-right: 0;
+}
+
+.columnMain {
+  margin: 0;
+  height: 100%;
+}
+
+.colPaddingZero {
+  padding: 0;
+}
+
+.mainStatsPadding {
+  padding: 0 10px 0 0;
+}
+
+.col-4-5,
+.col-8-5 {
+  position: relative;
+  width: 100%;
+  /* border: 1px solid red; */
+}
+.col-4-5 {
+  flex: 0 0 26.3%;
+  max-width: 26.3%;
+  height: 1188.8px;
+  /* border: 1px solid blue; */
+}
+.col-8-5 {
+  flex: 0 0 73.7%;
+  max-width: 73.7%;
+}
+
+.header-container {
+  width: 100%;
+  margin: 0;
+}
+
+.title-container h1 {
+  color: red;
 }
 
 .search-container {
-    display:flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-.stats-Container{
-    /* border:1px solid red; */
+.stats-Container {
+  /* border:1px solid red; */
+  margin: 20px 0;
 }
 
 .map-Container {
-    height: 500px;
-    /* background-color:orange; */
+  height: 500px;
+  /* background-color:orange; */
 }
 
 #map {
-    border-radius: 12px;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    -ms-border-radius: 12px;
-    -o-border-radius: 12px;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
 }
 
 .chart-Container {
-    height:400px;
-    width: 73%;
-    margin:0;
+  display: flex;
+  justify-content: space-between;
+  height: 430px;
+  margin: 0;
 }
 
-.chart-Container .col{
-    background-color: #c9c9c9;
-    border-radius:12px;
-    /*border: 1px solid red;
-    */-webkit-border-radius:12px;
-    -moz-border-radius:12px;
-    -ms-border-radius:12px;
-    -o-border-radius:12px;
-    -webkit-border-radius:12px;
+.w-97 {
+  width: 97.4% !important;
 }
 
-.linear-Chart div {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+.chart-Container .col-5 {
+  background-color: #c9c9c9;
+  border-radius: 12px;
+  /*border: 1px solid red;
+    */
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  -webkit-border-radius: 12px;
 }
 
-.row label{
-    text-align: center;
-    color:red;
+.linear-Chart div,
+.comparison-Chart div,
+.pieChart,
+.donutChart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 78%;
 }
 
-.comparison-Chart div{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+.row label {
+  text-align: center;
+  color: red;
 }
-.linear-Chart div .comparison-Chart div{
-     margin:0;
-    /* border: 1px solid red; */
+.linear-Chart div,
+.comparison-Chart div {
+  margin: 0;
+  /* border: 1px solid red; */
+}
+
+.donutChart {
+    margin: 20px 0 0 -8px;
+}
+
+.pieChart {
+    margin: 80px 0 0 -8px;
+}
+
+
+
+.pieChart,
+.donutChart {
+  border: 1px solid green;
+  height: 500px;
+  background-color: #c9c9c9;
+  border-radius: 12px;
+  /*border: 1px solid red;
+    */
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  -webkit-border-radius: 12px;
+}
+
+.pieChartSpacing {
+  padding: 10px;
+}
+
+.pieChartSpacing h2 {
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }

@@ -23,6 +23,8 @@
     <script src="covidTracker.js"></script>
     <script src="mapStyle.js"></script>
     <script src="chartVisual.js"></script>
+    <script src="searchCovid.js"></script>
+    <script src="card.js"></script>
     <script
       src="https://kit.fontawesome.com/95d4fe7f4a.js"
       crossorigin="anonymous"
@@ -31,103 +33,102 @@
   <body>
     <div class="container-fluid main">
       <div class="row">
-        <div class="col-8">
+        <div class="col-8-5 columnMain">
           <div class="row header-container">
             <div class="col-6 title-container">
               <h1>Covid-19</h1>
-              <h4>CoronaVirus</h4>
+              <h4>CORONAVIRUS</h4>
             </div>
             <div class="col-6 search-container">
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <div class="input-group-text">
+                  <div class="input-group-text" onclick="searchCountryM()">
                     <i class="fas fa-search"></i>
                   </div>
                 </div>
                 <input
                   type="text"
                   class="form-control"
-                  id="inlineFormInputGroup"
-                  placeholder="Search Location"
+                  id="countryInputM"
+                  placeholder="Search Location(by country)"
                 />
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="row stats-container w-75">
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Total Cases</h5>
-              <p class="card-text">1,222,443</p>
+
+          <div class="row stats-container w-100">
+            <div class="col">
+              <div class="card">
+                <div class="card-body" onclick="cardInfo(this)" id="totalCM">
+                  <h5 class="card-title">Total Cases</h5>
+                  <p class="card-text"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="card">
+                <div class="card-body" onclick="cardInfo(this)" id="activeCM">
+                  <h5 class="card-title">Active Cases</h5>
+                  <p class="card-text"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="card">
+                <div class="card-body" onclick="cardInfo(this)" id="recoveredM">
+                  <h5 class="card-title">Recovered</h5>
+                  <p class="card-text"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="card">
+                <div class="card-body" onclick="cardInfo(this)" id="deathsM">
+                  <h5 class="card-title">Deaths</h5>
+                  <p class="card-text"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row map-container w-100 ml-0">
+            <div class="col">
+              <div id="map"></div>
+            </div>
+          </div>
+          <div class="row chart-Container w-97 mt-4 ml-3">
+            <div class="col-5 linear-Chart">
+              <div class="row">
+                <canvas id="myChart" width="600"></canvas>
+              </div>
+            </div>
+            <div class="col-5 comparison-Chart">
+              <div class="row userDaysInput">
+                <canvas id="myChartTwo" width="600"></canvas>
+
+                <label for="quantity" id="quantityLabel"></label>
+                <input type="number" id="quantity" name="quantity" min="1" />
+                <button id="q" class="btn btn-warning">Update</button>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Active Cases</h5>
-              <p class="card-text">1,222,443</p>
-            </div>
+        <div class="col-4-5 pieChartSpacing">
+          <h2>More Info on Corona Below:</h2>
+          <div class="row donutChart w-100">
+            <canvas id="doughnut-chart" width="800"></canvas>
           </div>
-        </div>
-
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Recovered</h5>
-              <p class="card-text">1,222,443</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Deaths</h5>
-              <p class="card-text">1,222,443</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row map-container w-75 mt-3">
-        <div class="col">
-          <div id="map"></div>
-        </div>
-      </div>
-
-      <div class="row chart-Container mt-3">
-        <div class="col linear-Chart mr-3">
-          <div class="row">
-            
-          <canvas id="myChart" width="600"></canvas>
-          </div>
-        </div>
-        <div class="col comparison-Chart">
-          <div class="row">
-          <canvas id="myChartTwo" width="600"></canvas>
-        
-            <label for="quantity">Change data seen over certain period of time in terms of days (between 1 and 127):</label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-             min = "1"
-             max = "127"
-            />
-<button id="q" class = "btn btn-warning">Update</button>
+          <div class="row pieChart w-100">
+            <canvas id="pie-chart" width="800"></canvas>
           </div>
         </div>
       </div>
     </div>
 
-    <!--   <div class="covidContainer">
-      <div class="Nav"></div>
-      <div class="mapInfo">
-        <div id="map"></div>
-      </div>
+    <!-- 
+      this will be added at some later point(covid data chart)
       <div class="dataInfo">
         <div class="country-data">
           <table class="table table-striped table-dark">
@@ -143,26 +144,7 @@
           </table>
         </div>
 
-        <div class="chart-data">
-          <h1>Covid-19 Historical Data</h1>
-          <canvas id="myChart" width="600" height="500"></canvas>
-        </div>
-        <div class="chart-dataTwo" id="chartDataM">
-          <h1>Covid Historical Data Comparison</h1>
-          <canvas id="myChartTwo" width="600" height="500"></canvas>
-          <form>
-            <label for="quantity">Change data seen over certain period of time in terms of days (between 1 and 127):</label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-             min = "1"
-             max = "127"
-            />
-<button id="q" class = "btn btn-warning">Update</button>
-        </div>
-        </form>
-      </div>
+      
     </div> -->
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBArS-s-S30xw9PiLorx3ZnXCnaO0JGlKo&callback=initMap"
