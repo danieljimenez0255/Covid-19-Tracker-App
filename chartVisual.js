@@ -1,4 +1,8 @@
 // Sets up line chart data
+
+//data total Days variable
+let totalDays = [];
+
 const buildChartData = (historical) => {
   let chartData = [];
   for (let date in historical.cases) {
@@ -56,7 +60,7 @@ const covidMap = (chartData) => {
           {
             type: "time",
             time: {
-              format: timeFormat,
+              parser: timeFormat,
               tooltipFormat: "ll",
             },
             scaleLabel: {
@@ -91,6 +95,7 @@ const covidMap = (chartData) => {
 
 //Add stacked line charts feature to Tracker App
 const buildChartDataStacked = (historical) => {
+  // let chartDataA = [];
   let chartDataC = [];
   let chartDataD = [];
   let chartDataR = [];
@@ -115,9 +120,9 @@ const buildChartDataStacked = (historical) => {
     };
     chartDataR.push(thirdDataPoint);
   }
-  console.log("cases", chartDataC);
-  console.log("deaths", chartDataD);
-  console.log("recovered", chartDataR);
+  // console.log("cases", chartDataC);
+  // console.log("deaths", chartDataD);
+  // console.log("recovered", chartDataR);
   return [chartDataC, chartDataD, chartDataR];
 };
 
@@ -168,6 +173,7 @@ const covidChartTwo = (historicalTwo) => {
 
     // Configuration options go here
     options: {
+      maintainAspectRatio: false,
       //responsiveness
       responsive: true,
       scales: {
@@ -175,7 +181,7 @@ const covidChartTwo = (historicalTwo) => {
           {
             type: "time",
             time: {
-              format: timeFormat,
+              parser: timeFormat,
               tooltipFormat: "ll",
             },
             scaleLabel: {
@@ -210,7 +216,64 @@ const covidChartTwo = (historicalTwo) => {
       },
     },
   });
+  
 };
+
+//Covid-19 tracker pie chart
+/* will Contain
+-active cases 
+-total cases
+-recovered
+-deaths
+
+also fwy, make cards clickable so that when per say the active cases card is clicked, data shown on map 
+is only in reference to the card
+*/
+
+pieChartData = (historical) => {
+  
+let pieChartM = new Chart(document.getElementById("pie-chart"), {
+  type: 'pie',
+  data: {
+    labels: ["Total Cases", "Active Cases", "Recovered", "Deaths"],
+    datasets: [{
+      
+      backgroundColor: ["#8e5ea2","#3e95cd", "#3cba9f","#e8c3b9"],
+      data: [historical[0],historical[1],historical[2],historical[3]]
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    title: {
+      display: true,
+      
+    }
+  }
+});
+};
+
+doughnutChartData = (historical) => {
+  let doughnutChartM = new Chart(document.getElementById("doughnut-chart"), {
+    type: 'doughnut',
+    data: {
+      labels: ["Active Cases", "Total Cases"],
+      datasets: [
+        {
+         
+          backgroundColor: ["#3e95cd", "#8e5ea2"],
+          data: [historical[1],historical[0]]
+        }
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      title: {
+        display: true,
+        text: 'Total Active and Overall Total Cases'
+      }
+    }
+});
+}
 
 function clearData(chart) {
   chart.data.datasets.forEach((dataset) => {
@@ -218,3 +281,11 @@ function clearData(chart) {
   });
   chart.update();
 }
+
+const updateInput = (historical) => {
+  historical.forEach((day, index) => {
+    if (historical.length - 1 === index) {
+      totalDays.push(day);
+    }
+  });
+};
