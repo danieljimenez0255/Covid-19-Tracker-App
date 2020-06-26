@@ -8,7 +8,7 @@ countI = localStorage.getItem("days");
 countS = localStorage.getItem("count");
 let historicalData =
   "https://corona.lmao.ninja/v2/historical/all?lastdays=" +
-  (152 + parseInt(countI));
+  (155 + parseInt(countI));
 
 lastVal = historicalData;
 const countryStyling = "mapStyle.js";
@@ -16,7 +16,7 @@ const countryStyling = "mapStyle.js";
 window.onload = function () {
   // console.log(lastVal)
   getCountries();
-  gethistoricalData(lastVal);
+  gethistoricalData();
 
   document.getElementById("q").addEventListener("click", function (event) {
     event.preventDefault();
@@ -25,7 +25,7 @@ window.onload = function () {
     //prevents entire page from reloading when enter key is pressed
 
     lastVal = changeLastDays();
-    gethistoricalData(lastVal);
+    gethistoricalData();
 
     // console.log(lastVal)
   });
@@ -43,43 +43,24 @@ const changeLastDays = () => {
 };
 
 //function that grabs country data
-function getCountries() {
-  fetch(countryData)
-    .then(function (response) {
-      return response.json(); //if promise is fulfilled, then this block will run
-    })
-    .then(function (countries) {
-      //this function grabs all needed data
-      // markerData(countries);
-      // console.log(countries);
-      searchCountry(countries);
-      //this function displayss all needed data
-      addMarkerstoMap(countries);
-      let cardDataM = cardData(countries);
-      pieChartData(cardDataM);
-      doughnutChartData(cardDataM);
-      //function below adds data to map
-      // showDataInTable(countries);
-    });
-  // console.log("code executed"); // this will be ran first so if one thing doesn't happen, another happens
-}
+const getCountries = async () => {
+  const res = await fetch(countryData);
+  const countries = await res.json();
+  searchCountry(countries);
+  addMarkerstoMap(countries);
+  let cardDataM = cardData(countries);
+  pieChartData(cardDataM);
+  doughnutChartData(cardDataM);
+};
 
-//function grabs data of totals over last 120 days
-const gethistoricalData = (last) => {
-  // console.log(last);
-  fetch(last)
-    .then(function (responseTwo) {
-      return responseTwo.json(); //if promise is fulfilled, then this block will run
-    })
-    .then(function (countries) {
-      // console.log(countries)
-      let chartDataM = buildChartData(countries);
-      let secondChartDataM = buildChartDataStacked(countries);
-      covidMap(chartDataM);
-      covidChartTwo(secondChartDataM);
-      /*  pieChartM(); */
-    });
-  // console.log("code executed"); // this will be ran first so if one thing doesn't happen, another happens
+//function grabs data of totals over last # days
+const gethistoricalData = async () => {
+  const historicalRes = await fetch(lastVal);
+  const historicalJson = await historicalRes.json();
+  let chartDataM = buildChartData(historicalJson);
+  let secondChartDataM = buildChartDataStacked(historicalJson);
+  covidMap(chartDataM);
+  covidChartTwo(secondChartDataM);
 };
 
 //intializies the map
@@ -166,13 +147,12 @@ cardData = (countries) => {
 historicalDays = () => {
   let getHours = new Date().getHours();
   console.log(getHours);
-  if (getHours === 0 && countS === 0) {
+  if (getHours === 0) {
     countI++;
     countS++;
-  } else if(getHours === 1) {
+  } else if (getHours === 1) {
     countS = 0;
-  }
-  else {
+  } else {
     console.log("No Need to update data");
   }
   localStorage.setItem("days", countI);

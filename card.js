@@ -1,7 +1,6 @@
 let cardM = "all";
 
 cardInfo = (card) => {
-  console.log(card["id"]);
   cardM = card["id"];
   initMap();
   addMarkerstoMap(allData[0]);
